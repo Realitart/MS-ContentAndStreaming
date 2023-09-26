@@ -43,7 +43,6 @@ public class AssetServiceImpl implements IAssetService {
                     if(request.getRotationZ() != null) asset.setRotationZ(request.getRotationZ());
                     if(request.getEnable() != null) asset.setEnable(request.getEnable());
                     _assetRepo.save(asset);
-
                     return new OperationResponse(true, "Asset actualizado correctamente");
                 }
         ).orElseThrow(() -> new ResourceNotFoundException(ENTITY, assetId));
@@ -63,7 +62,7 @@ public class AssetServiceImpl implements IAssetService {
     public Asset getAsset(Long assetId) {
 
         try {
-            return _assetRepo.findById(assetId).get();
+            return _assetRepo.findById(assetId).orElseThrow(() -> new ResourceNotFoundException(ENTITY, assetId));
         } catch (Exception e) {
             throw new ResourceNotFoundException("Error al obtener el asset", e);
         }
